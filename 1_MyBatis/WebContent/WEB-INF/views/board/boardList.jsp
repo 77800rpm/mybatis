@@ -12,7 +12,7 @@
 		margin-left:auto; margin:auto; margin-top:50px; margin-bottom: 50px; 
 	}
 	#boardTable{text-align:center; margin: auto; width: 900px;}
-	#boardTable th{border-bottom: 3px solid lightgray;}
+	#boardTable th{border-bottom: 2px solid lightgray;}
 	#boardTable td{border-bottom: 1px solid lightgray;}
 </style>
 </head>
