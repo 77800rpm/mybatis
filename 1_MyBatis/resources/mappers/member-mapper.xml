@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+<!-- namespace : 매퍼에 접근할 수 있는 매퍼 이름(별칭) -->
+	<!-- 
+		id				:	외부에서 참조하기 위한 쿼리 엘리먼트 구분자, 쿼리문의 고유 아이디
+		parameterType	:	구문에 전달된 파라미터(클래스 풀네임이나 별칭)
+		resultType		:	쿼리 실행 후 조회된 결과를 자바에서 사용할 수 있게 매칭해서 담아 주는 객체
+	 -->
+<!--  	<select id="loginMember" parameterType="member.model.vo.Member" resultType="member.model.vo.Member">-->
+	<select id="loginMember" parameterType="member.model.vo.Member" resultMap="memberResultSet">
+		select *
+		from member
+		where user_id=#{userId}
+			and user_pwd=#{userPwd}
+			and m_status='Y'
+	</select>
+	<!-- 
+		DB와 자바 클래스를 매핑시켜 주는 역할
+			type : 매핑한 ResultSet을 담을 VO의 풀네임
+			id	 : resultMap의 고유 아이디, 구분자
+	-->
+	<resultMap type="member.model.vo.Member" id="memberResultSet">
+	<!-- 
+			id = 기본 키 / result = 일반 키
+				column		:	DB의 해당 컬럼
+				property	:	자바의 VO 필드
+	 -->
+		<id column="USER_ID" property="userId"/>
+		<result column="USER_PWD" property="userPwd"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="NICKNAME" property="nickName"/>
+		<result column="EMAIL" property="email"/>
+		<result column="BIRTHDAY" property="birthDay"/>
+		<result column="GENDER" property="gender"/>
+		<result column="PHONE" property="phone"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="UPDATE_DATE" property="updateDate"/>
+		<result column="M_STATUS" property="mStatus"/>
+	</resultMap>
+	
+	<insert id="insertMember" parameterType="member.model.vo.Member">
+		insert into MEMBER
+		values(#{userId}, #{userPwd}, #{userName}, #{nickName}, #{email}, #{birthDay}, #{gender}, #{phone},  #{address}, sysdate, sysdate, default)
+		<!-- 뒤에 세미콜론 붙이면 안 됨 -->		
+	</insert>
+	
+	<update id="updateMember" parameterType="Member">
+		update member
+		set user_name=#{userName}, nickname=#{nickName}, email=#{email}, birthday=#{birthDay},
+			gender=#{gender}, phone=#{phone}, address=#{address}, update_date=sysdate
+		where user_id=#{userId}		
+	</update>
+	
+	<update id="updatePwd" parameterType="hashmap">
+		update member
+		set user_pwd=#{newPwd}
+		where user_id=#{userId} and user_pwd=#{userPwd}
+	</update>
+	
+	<update id="deleteMember" parameterType="string">
+		update member
+		set m_status = 'N'
+		where user_id=#{userId}
+	</update>
+	
+	
+</mapper>

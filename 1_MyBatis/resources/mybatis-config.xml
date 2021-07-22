@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties resource="driver.properties"/>
+	
+	<!-- parameterType 별칭 만들기 -->
+	<typeAliases>
+		<typeAlias type="member.model.vo.Member" alias="Member"/>
+		<typeAlias type="board.model.vo.Board" alias="Board"/>
+	</typeAliases>
+	
+
+	<!-- Database 연결할 설정 정보 여러 개 선언 -->
+	<!-- default : 연결 설정이 여러 개일 때 default에 설정된 값과 id가 일치하는 설정을 찾아 기본으로 연결 -->
+	<environments default="development">
+	<!-- Database 연결할 설정 정보 선언 -->
+	<!-- id : environment 구분자 -->
+		<environment id="development">
+			<!-- 트랜잭션을 누가 관리할 것인가에 대한 설정 -->
+			<!--
+				JDBC		JDBC가 직접 트랜잭션 관리(수동 commit)
+				MANAGED		컨테이너가 트랜잭션 관리(자동 commit, 직접적인 영향 행사 X)
+			 -->
+			<transactionManager type="JDBC"/>
+			
+			<!-- 실제 DB 접속에 관한 정보 입력 -->
+			<!-- 
+				POOLED		미리 만들어 놓은 커넥션을 pool에 저장하고 요청이 올 때마다 pool에서 꺼내 재사용
+							요청이 올 때마다 만들 필요가 없기 때문에 객체를 만드는 시간을 줄일 수 있음 -> 웹 서비스에서 많이 씀
+				UNPOOLED	요청이 올 때마다 실시간으로 커넥션 객체 생성
+							미리 커넥션을 만들어 놓고 가져다 쓰는 방식이 아니기 때문에 조금 느릴 수 있음
+				JNDI
+			 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!--  mapper 파일 등록 -->
+	<mappers>
+		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mappers/board-mapper.xml"/>
+	</mappers>
+	
+</configuration>
