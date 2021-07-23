@@ -61,8 +61,8 @@
 						
 						<c:if test="${ searchValue ne null }">
 						<!-- 검색이 돼서 넘어온 것 -->
-							<c:param name="searchCondition" value="{ searchCondition }"/>
-							<c:param name="searchCondition" value="{ searchValue }"/>
+							<c:param name="searchCondition" value="${ searchCondition }"/>
+							<c:param name="searchValue" value="${ searchValue }"/>
 						</c:if>
 					</c:url>
 					<a href="${ bListBack }">[이전]</a>
@@ -76,6 +76,13 @@
 					<c:if test="${ p != pi.currentPage }">
 						<c:url var="bListCheck" value="${ loc }">
 							<c:param name="currentPage" value="${ p }"></c:param>
+							
+							<c:if test="${ searchValue ne null }">
+							<!-- 검색이 돼서 넘어온 것 -->
+								<c:param name="searchCondition" value="${ searchCondition }"/>
+								<c:param name="searchValue" value="${ searchValue }"/>
+							</c:if>							
+							
 						</c:url>
 						<a href="${ bListCheck }">${ p }</a>
 					</c:if>
@@ -86,6 +93,12 @@
 				<c:if test="${ pi.currentPage < pi.maxPage }">
 					<c:url value="${ loc }" var="bListNext">
 						<c:param name="currentPage" value="${ pi.currentPage + 1 }"/>
+						
+							<c:if test="${ searchValue ne null }">
+							<!-- 검색이 돼서 넘어온 것 -->
+								<c:param name="searchCondition" value="${ searchCondition }"/>
+								<c:param name="searchValue" value="${ searchValue }"/>
+							</c:if>						
 					</c:url>
 					<a href="${ bListNext }">[다음]</a>
 				</c:if>
